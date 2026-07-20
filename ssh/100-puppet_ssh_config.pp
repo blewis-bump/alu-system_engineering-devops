@@ -1,3 +1,5 @@
+#Configures the SSH client to use ~/.ssh/school as the identity file
+#xand refuse password authentication.
 file_line { 'Declare identity file':
   path => '/root/.ssh/config',
   line => 'IdentityFile ~/.ssh/school',
