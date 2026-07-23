@@ -3,8 +3,10 @@
 
 useradd nginx 2>/dev/null
 
-sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
 sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
 sed -i 's/listen \[::\]:80 default_server ipv6only=on;/listen [::]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
 
-service nginx restart
+service nginx stop
+chown -R nginx:nginx /var/log/nginx /var/lib/nginx 2>/dev/null
+
+su -s /bin/bash nginx -c "nginx"
