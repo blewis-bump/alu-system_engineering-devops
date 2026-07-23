@@ -1,18 +1,6 @@
 #!/usr/bin/env bash
-# Configures Nginx to run as the nginx user and listen on port 8080
-
-useradd nginx 2>/dev/null
-
-sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80 default_server ipv6only=on;/listen [::]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
-
-service nginx stop
-
-mkdir -p /var/log/nginx /var/lib/nginx
-chown -R nginx:nginx /var/log/nginx /var/lib/nginx
-
-rm -f /run/nginx.pid
-touch /run/nginx.pid
-chown nginx:nginx /run/nginx.pid
-
-su -s /bin/bash nginx -c "nginx"
+# Configure the container to run Nginx as the nginx user.
+sudo chmod -R 755 /etc/nginx/
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+pkill apache2
+su nginx -c "service nginx restart"
